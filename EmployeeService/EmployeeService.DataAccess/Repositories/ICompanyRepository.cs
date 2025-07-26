@@ -13,7 +13,7 @@ public interface ICompanyRepository
     /// <param name="company"><see cref="Company"/>.</param>
     /// <returns>Индентификатор компании.</returns>
     public Task<int> AddCompany(Company company);
-    
+
     /// <summary>
     /// Получить компанию.
     /// </summary>
@@ -36,7 +36,7 @@ public interface ICompanyRepository
     /// <param name="id">Идентификатор компании.</param>
     /// <returns><see cref="Task"/></returns>
     public Task DeleteCompany(int id);
-    
+
     /// <summary>
     /// Обновить компанию.
     /// </summary>

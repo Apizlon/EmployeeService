@@ -13,7 +13,7 @@ public interface IPassportRepository
     /// <param name="passport"><see cref="Passport"/>.</param>
     /// <returns>Индентификатор паспорта.</returns>
     public Task<int> AddPassport(Passport passport);
-    
+
     /// <summary>
     /// Получить паспорт.
     /// </summary>
@@ -36,7 +36,7 @@ public interface IPassportRepository
     /// <param name="id">Идентификатор паспорта.</param>
     /// <returns><see cref="Task"/></returns>
     public Task DeletePassport(int id);
-    
+
     /// <summary>
     /// Обновить паспорт.
     /// </summary>
