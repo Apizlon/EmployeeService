@@ -1,7 +1,4 @@
-﻿using EmployeeService.DataAccess.Repositories.Company;
-using EmployeeService.DataAccess.Repositories.Department;
-using EmployeeService.DataAccess.Repositories.Employee;
-using EmployeeService.DataAccess.Repositories.Passport;
+﻿using EmployeeService.DataAccess.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EmployeeService.DataAccess.Extensions;
