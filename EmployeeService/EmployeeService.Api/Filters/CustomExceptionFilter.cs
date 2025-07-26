@@ -15,9 +15,9 @@ public class CustomExceptionFilter : IExceptionFilter
 
         var errorResponse = new ErrorResponse
         {
-            Message = "An unexpected error occurred.",
+            Message = context.Exception.Message,
             RequestId = context.HttpContext.TraceIdentifier,
-            Details = context.Exception.Message
+            Details = ResponseDetailSetter(context.Exception),
         };
 
         var statusCode = context.Exception switch
@@ -29,16 +29,22 @@ public class CustomExceptionFilter : IExceptionFilter
             _ => (int)HttpStatusCode.InternalServerError
         };
 
-        if (statusCode != (int)HttpStatusCode.InternalServerError)
-        {
-            errorResponse.Message = context.Exception.Message;
-        }
-
         context.Result = new JsonResult(errorResponse)
         {
             StatusCode = statusCode
         };
 
         context.ExceptionHandled = true;
+    }
+
+    private static string ResponseDetailSetter(Exception ex)
+    {
+        if (ex is TaskCanceledException) return "Task was cancelled.";
+        if (ex is BadRequestException exception)
+        {
+            if (!string.IsNullOrEmpty(exception.Details)) return exception.Details!;
+        }
+
+        return "Error occured.";
     }
 }

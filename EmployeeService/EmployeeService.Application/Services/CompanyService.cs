@@ -1,7 +1,5 @@
-﻿using EmployeeService.Application.Contracts;
-using EmployeeService.Application.Contracts.Company;
+﻿using EmployeeService.Application.Contracts.Company;
 using EmployeeService.Application.Mappers;
-using EmployeeService.Application.Services.UnitOfWork;
 using EmployeeService.Application.Validators;
 using EmployeeService.DataAccess.Repositories;
 using EmployeeService.Domain.Exceptions;

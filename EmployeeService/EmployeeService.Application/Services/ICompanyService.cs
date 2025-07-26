@@ -1,5 +1,4 @@
-﻿using EmployeeService.Application.Contracts;
-using EmployeeService.Application.Contracts.Company;
+﻿using EmployeeService.Application.Contracts.Company;
 
 namespace EmployeeService.Application.Services;
 

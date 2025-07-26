@@ -6,6 +6,10 @@
 public class BadRequestException : Exception
 {
     /// <summary>
+    /// Детали ошибки.
+    /// </summary>
+    public string? Details { get; set; }
+    /// <summary>
     /// Вызывает конструктор базового класса.
     /// </summary>
     /// <param name="message">Текст ошибки.</param>

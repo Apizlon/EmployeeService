@@ -40,5 +40,5 @@ public class EmployeeResponseDto
     /// <summary>
     /// Отдел компании.
     /// </summary>
-    public DepartmentResponseDto? Department { get; set; }
+    public DepartmentResponse? Department { get; set; }
 }

@@ -1,10 +1,15 @@
 ﻿namespace EmployeeService.Application.Contracts.Department;
 
 /// <summary>
-/// Отдел компании.
+/// Создать Отдел компании.
 /// </summary>
-public class DepartmentResponseDto
+public class AddDepartmentRequest
 {
+    /// <summary>
+    /// Идентификатор компании.
+    /// </summary>
+    public int CompanyId { get; set; }
+
     /// <summary>
     /// Название отдела.
     /// </summary>

@@ -40,8 +40,7 @@ public interface IDepartmentRepository : ITransactionalRepository
     /// <summary>
     /// Обновить отдел.
     /// </summary>
-    /// <param name="id">Идентификатор отдела.</param>
     /// <param name="department"><see cref="Department"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdateDepartment(int id, Department department);
+    public Task UpdateDepartment(Department department);
 }

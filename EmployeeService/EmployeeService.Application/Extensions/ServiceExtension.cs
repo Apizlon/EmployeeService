@@ -30,6 +30,7 @@ public static class ServiceExtension
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<IDepartmentService, DepartmentService>();
 
         return services;
     }

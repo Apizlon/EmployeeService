@@ -43,7 +43,7 @@ public class DepartmentRepository : IDepartmentRepository
     public async Task<Department?> GetDepartment(int id, CancellationToken ct = default)
     {
         var department =
-            await _connection.QuerySingleOrDefaultAsync<Department>(new(Sql.GetDepartment, id, _transaction,
+            await _connection.QuerySingleOrDefaultAsync<Department>(new(Sql.GetDepartment, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return department;
     }
@@ -52,7 +52,7 @@ public class DepartmentRepository : IDepartmentRepository
     public async Task<bool> DepartmentExists(int id, CancellationToken ct = default)
     {
         var exists =
-            await _connection.ExecuteScalarAsync<bool>(new(Sql.DepartmentExists, id, _transaction,
+            await _connection.ExecuteScalarAsync<bool>(new(Sql.DepartmentExists, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return exists;
     }
@@ -60,11 +60,11 @@ public class DepartmentRepository : IDepartmentRepository
     /// <inheritdoc/>
     public async Task DeleteDepartment(int id)
     {
-        await _connection.ExecuteAsync(Sql.DeleteDepartment, id, _transaction);
+        await _connection.ExecuteAsync(Sql.DeleteDepartment, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>
-    public async Task UpdateDepartment(int id, Department department)
+    public async Task UpdateDepartment(Department department)
     {
         await _connection.ExecuteAsync(new(Sql.UpdateDepartment, department, _transaction));
     }
