@@ -50,7 +50,8 @@ public static class DatabaseExtension
     private static void EnsureDatabaseExists(string connectionString)
     {
         var builder = new NpgsqlConnectionStringBuilder(connectionString);
-        var databaseName = builder.Database;
+        var databaseName = builder.Database ??
+                           throw new ArgumentException("Database section from connection string is missing");
         var masterConnectionString = new NpgsqlConnectionStringBuilder(connectionString)
         {
             Database = "postgres"
