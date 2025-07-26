@@ -1,26 +1,27 @@
-﻿using EmployeeService.Domain.Entities;
+﻿using EmployeeService.Application.Contracts;
+using EmployeeService.Application.Contracts.Company;
 
-namespace EmployeeService.DataAccess.Repositories;
+namespace EmployeeService.Application.Services;
 
 /// <summary>
-/// Репозиторий компании.
+/// Сервис для работы с компаниями.
 /// </summary>
-public interface ICompanyRepository : ITransactionalRepository
+public interface ICompanyService
 {
     /// <summary>
     /// Добавить компанию.
     /// </summary>
-    /// <param name="company"><see cref="Company"/>.</param>
+    /// <param name="company"><see cref="CompanyRequest"/>.</param>
     /// <returns>Индентификатор компании.</returns>
-    public Task<int> AddCompany(Company company);
+    public Task<int> AddCompany(CompanyRequest company);
 
     /// <summary>
     /// Получить компанию.
     /// </summary>
     /// <param name="id">Идентификатор компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns><see cref="Company"/>.</returns>
-    public Task<Company?> GetCompany(int id, CancellationToken ct = default);
+    /// <returns><see cref="CompanyRequest"/>>.</returns>
+    public Task<CompanyResponse?> GetCompany(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Существует ли компания.
@@ -40,7 +41,8 @@ public interface ICompanyRepository : ITransactionalRepository
     /// <summary>
     /// Обновить компанию.
     /// </summary>
-    /// <param name="company"><see cref="Company"/></param>
+    /// <param name="id">Идентификатор компании.</param>
+    /// <param name="company"><see cref="CompanyRequest"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdateCompany(Company company);
+    public Task UpdateCompany(int id, CompanyRequest company);
 }

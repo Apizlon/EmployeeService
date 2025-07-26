@@ -8,20 +8,27 @@ namespace EmployeeService.DataAccess.Repositories;
 /// <inheritdoc/>
 public class DepartmentRepository : IDepartmentRepository
 {
-    /// <summary> <see cref="IDbConnection"/>.</summary>
+    /// <summary><see cref="IDbConnection"/>.</summary>
     private readonly IDbConnection _connection;
 
-    /// <summary> <see cref="IDbTransaction"/>.</summary>
-    private readonly IDbTransaction _transaction;
+    /// <summary><see cref="IDbTransaction"/>.</summary>
+    private IDbTransaction? _transaction;
 
     /// <summary>
     /// Конструктор.
     /// </summary>
     /// <param name="connection"><see cref="IDbConnection"/>.</param>
-    /// <param name="transaction"><see cref="IDbTransaction"/>.</param>
-    public DepartmentRepository(IDbConnection connection, IDbTransaction transaction)
+    public DepartmentRepository(IDbConnection connection)
     {
         _connection = connection;
+    }
+
+    /// <summary>
+    /// Установка транзакции.
+    /// </summary>
+    /// <param name="transaction"><see cref="IDbTransaction"/>.</param>
+    public void SetTransaction(IDbTransaction transaction)
+    {
         _transaction = transaction;
     }
 

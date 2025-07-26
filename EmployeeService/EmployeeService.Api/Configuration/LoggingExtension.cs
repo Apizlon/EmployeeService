@@ -17,8 +17,10 @@ public static class LoggingExtension
         return hostBuilder.UseSerilog((context, configuration) =>
         {
             configuration
-                .MinimumLevel.Debug()
-                .WriteTo.Console();
+                .ReadFrom.Configuration(context.Configuration)
+                .WriteTo.Console(
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+                );
         });
     }
 }

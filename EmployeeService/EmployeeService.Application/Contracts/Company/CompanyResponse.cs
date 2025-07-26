@@ -1,9 +1,9 @@
-﻿namespace EmployeeService.Application.Contracts;
+﻿namespace EmployeeService.Application.Contracts.Company;
 
 /// <summary>
 /// Компания.
 /// </summary>
-public class CompanyDto
+public class CompanyResponse
 {
     /// <summary>
     /// Идентификатор.

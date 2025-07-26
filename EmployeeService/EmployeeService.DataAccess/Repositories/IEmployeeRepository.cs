@@ -5,7 +5,7 @@ namespace EmployeeService.DataAccess.Repositories;
 /// <summary>
 /// Репозиторий сотрудников.
 /// </summary>
-public interface IEmployeeRepository
+public interface IEmployeeRepository : ITransactionalRepository
 {
     /// <summary>
     /// Добавить сотрудник.

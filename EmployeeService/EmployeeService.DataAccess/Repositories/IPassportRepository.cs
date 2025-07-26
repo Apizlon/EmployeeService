@@ -5,7 +5,7 @@ namespace EmployeeService.DataAccess.Repositories;
 /// <summary>
 /// Репозиторий паспорта.
 /// </summary>
-public interface IPassportRepository
+public interface IPassportRepository : ITransactionalRepository
 {
     /// <summary>
     /// Добавить паспорт.

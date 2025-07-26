@@ -5,7 +5,7 @@ namespace EmployeeService.DataAccess.Repositories;
 /// <summary>
 /// Репозиторий отдела.
 /// </summary>
-public interface IDepartmentRepository
+public interface IDepartmentRepository : ITransactionalRepository
 {
     /// <summary>
     /// Добавить отдел.

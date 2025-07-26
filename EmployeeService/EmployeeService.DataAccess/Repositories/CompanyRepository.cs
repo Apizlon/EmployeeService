@@ -8,20 +8,27 @@ namespace EmployeeService.DataAccess.Repositories;
 /// <inheritdoc/>
 public class CompanyRepository : ICompanyRepository
 {
-    /// <summary> <see cref="IDbConnection"/>.</summary>
+    /// <summary><see cref="IDbConnection"/>.</summary>
     private readonly IDbConnection _connection;
 
-    /// <summary> <see cref="IDbTransaction"/>.</summary>
-    private readonly IDbTransaction _transaction;
+    /// <summary><see cref="IDbTransaction"/>.</summary>
+    private IDbTransaction? _transaction;
 
     /// <summary>
     /// Конструктор.
     /// </summary>
     /// <param name="connection"><see cref="IDbConnection"/>.</param>
-    /// <param name="transaction"><see cref="IDbTransaction"/>.</param>
-    public CompanyRepository(IDbConnection connection, IDbTransaction transaction)
+    public CompanyRepository(IDbConnection connection)
     {
         _connection = connection;
+    }
+
+    /// <summary>
+    /// Установка транзакции.
+    /// </summary>
+    /// <param name="transaction"><see cref="IDbTransaction"/>.</param>
+    public void SetTransaction(IDbTransaction transaction)
+    {
         _transaction = transaction;
     }
 
@@ -36,7 +43,7 @@ public class CompanyRepository : ICompanyRepository
     public async Task<Company?> GetCompany(int id, CancellationToken ct = default)
     {
         var company =
-            await _connection.QuerySingleOrDefaultAsync<Company>(new(Sql.GetCompany, id, _transaction,
+            await _connection.QuerySingleOrDefaultAsync<Company>(new(Sql.GetCompany, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return company;
     }
@@ -45,18 +52,19 @@ public class CompanyRepository : ICompanyRepository
     public async Task<bool> CompanyExists(int id, CancellationToken ct = default)
     {
         var exists =
-            await _connection.ExecuteScalarAsync<bool>(new(Sql.CompanyExists, id, _transaction, cancellationToken: ct));
+            await _connection.ExecuteScalarAsync<bool>(new(Sql.CompanyExists, new { Id = id }, _transaction,
+                cancellationToken: ct));
         return exists;
     }
 
     /// <inheritdoc/>
     public async Task DeleteCompany(int id)
     {
-        await _connection.ExecuteAsync(Sql.DeleteCompany, id, _transaction);
+        await _connection.ExecuteAsync(Sql.DeleteCompany, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>
-    public async Task UpdateCompany(int id, Company company)
+    public async Task UpdateCompany(Company company)
     {
         await _connection.ExecuteAsync(new(Sql.UpdateCompany, company, _transaction));
     }
