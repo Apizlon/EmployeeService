@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace EmployeeService.DataAccess.Repositories;
+namespace EmployeeService.Application.Interfaces.Repositories;
 
 /// <summary>
 /// Репозиторий, поддерживающий транзакции.

@@ -1,9 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using EmployeeService.Application.Contracts.Employee;
+using EmployeeService.Application.Interfaces.Repositories;
+using EmployeeService.Application.Interfaces.Services;
+using EmployeeService.Application.Interfaces.UnitOfWork;
 using EmployeeService.Application.Mappers;
-using EmployeeService.Application.Services.UnitOfWork;
 using EmployeeService.Application.Validators;
-using EmployeeService.DataAccess.Repositories;
 using EmployeeService.Domain.Entities;
 using EmployeeService.Domain.Exceptions;
 

@@ -1,4 +1,7 @@
-﻿using EmployeeService.DataAccess.Repositories;
+﻿using EmployeeService.Application.Interfaces.Repositories;
+using EmployeeService.Application.Interfaces.UnitOfWork;
+using EmployeeService.DataAccess.Repositories;
+using EmployeeService.DataAccess.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EmployeeService.DataAccess.Extensions;
@@ -20,6 +23,17 @@ public static class RepositoryExtension
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+        return services;
+    }
+
+    /// <summary>
+    /// Добавление UnitOfWork.
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/>.</param>
+    /// <returns><see cref="IServiceCollection"/>.</returns>
+    public static IServiceCollection AddUnitOfWorkFactory(this IServiceCollection services)
+    {
+        services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
         return services;
     }
 }

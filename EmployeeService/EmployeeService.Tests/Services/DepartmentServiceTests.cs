@@ -1,6 +1,7 @@
 ﻿using EmployeeService.Application.Contracts.Department;
+using EmployeeService.Application.Interfaces.Repositories;
+using EmployeeService.Application.Interfaces.Services;
 using EmployeeService.Application.Services;
-using EmployeeService.DataAccess.Repositories;
 using EmployeeService.Domain.Entities;
 using EmployeeService.Domain.Exceptions;
 using Moq;

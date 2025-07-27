@@ -1,5 +1,5 @@
 ﻿using EmployeeService.Application.Contracts.Employee;
-using EmployeeService.DataAccess.Repositories;
+using EmployeeService.Application.Interfaces.Repositories;
 using EmployeeService.Domain.Entities;
 using EmployeeService.Domain.Exceptions;
 

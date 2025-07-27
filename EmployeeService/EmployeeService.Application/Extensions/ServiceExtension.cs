@@ -1,5 +1,6 @@
-﻿using EmployeeService.Application.Services;
-using EmployeeService.Application.Services.UnitOfWork;
+﻿using EmployeeService.Application.Interfaces.Services;
+using EmployeeService.Application.Interfaces.UnitOfWork;
+using EmployeeService.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EmployeeService.Application.Extensions;
@@ -9,17 +10,6 @@ namespace EmployeeService.Application.Extensions;
 /// </summary>
 public static class ServiceExtension
 {
-    /// <summary>
-    /// Добавление UnitOfWork.
-    /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/>.</param>
-    /// <returns><see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddUnitOfWorkFactory(this IServiceCollection services)
-    {
-        services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
-        return services;
-    }
-
     /// <summary>
     /// Добавление сервисов.
     /// </summary>

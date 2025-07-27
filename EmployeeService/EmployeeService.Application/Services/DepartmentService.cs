@@ -1,7 +1,8 @@
 ﻿using EmployeeService.Application.Contracts.Department;
+using EmployeeService.Application.Interfaces.Repositories;
+using EmployeeService.Application.Interfaces.Services;
 using EmployeeService.Application.Mappers;
 using EmployeeService.Application.Validators;
-using EmployeeService.DataAccess.Repositories;
 using EmployeeService.Domain.Exceptions;
 
 namespace EmployeeService.Application.Services;

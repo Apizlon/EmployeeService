@@ -1,5 +1,5 @@
 ﻿using EmployeeService.Application.Contracts.Employee;
-using EmployeeService.Application.Services;
+using EmployeeService.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeService.Api.Controllers;

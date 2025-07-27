@@ -1,6 +1,6 @@
 ﻿using EmployeeService.Domain.Entities;
 
-namespace EmployeeService.DataAccess.Repositories;
+namespace EmployeeService.Application.Interfaces.Repositories;
 
 /// <summary>
 /// Репозиторий отдела.

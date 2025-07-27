@@ -1,4 +1,4 @@
-﻿namespace EmployeeService.Application.Services.UnitOfWork;
+﻿namespace EmployeeService.Application.Interfaces.UnitOfWork;
 
 /// <summary>
 /// Unit of Work.

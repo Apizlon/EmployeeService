@@ -1,6 +1,6 @@
 ﻿using EmployeeService.Application.Contracts.Department;
 
-namespace EmployeeService.Application.Services;
+namespace EmployeeService.Application.Interfaces.Services;
 
 /// <summary>
 /// Сервис для работы с отделами.

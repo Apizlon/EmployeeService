@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Dapper;
+using EmployeeService.Application.Interfaces.Repositories;
 using EmployeeService.DataAccess.SqlScripts;
 using EmployeeService.Domain.Entities;
 

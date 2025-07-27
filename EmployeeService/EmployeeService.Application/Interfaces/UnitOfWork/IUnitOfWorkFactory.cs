@@ -1,7 +1,7 @@
-﻿namespace EmployeeService.Application.Services.UnitOfWork;
+﻿namespace EmployeeService.Application.Interfaces.UnitOfWork;
 
 /// <summary>
-/// Фабрика UnitofWork.
+/// Фабрика UnitOfWork.
 /// </summary>
 public interface IUnitOfWorkFactory
 {

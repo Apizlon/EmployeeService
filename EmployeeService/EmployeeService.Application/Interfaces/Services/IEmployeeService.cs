@@ -1,34 +1,26 @@
-﻿using EmployeeService.Domain.Entities;
+﻿using EmployeeService.Application.Contracts.Employee;
 
-namespace EmployeeService.DataAccess.Repositories;
+namespace EmployeeService.Application.Interfaces.Services;
 
 /// <summary>
-/// Репозиторий сотрудников.
+/// Сервис для работы с сотрудниками.
 /// </summary>
-public interface IEmployeeRepository : ITransactionalRepository
+public interface IEmployeeService
 {
     /// <summary>
     /// Добавить сотрудника.
     /// </summary>
-    /// <param name="employee"><see cref="Employee"/>.</param>
+    /// <param name="employee"><see cref="AddEmployeeRequest"/>.</param>
     /// <returns>Индентификатор сотрудника.</returns>
-    public Task<int> AddEmployeeAsync(Employee employee);
+    public Task<int> AddEmployeeAsync(AddEmployeeRequest employee);
 
     /// <summary>
     /// Получить сотрудника.
     /// </summary>
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns><see cref="Employee"/>>.</returns>
-    public Task<Employee?> GetEmployeeAsync(int id, CancellationToken ct = default);
-
-    /// <summary>
-    /// Существует ли сотрудник.
-    /// </summary>
-    /// <param name="id">Идентификатор сотрудника.</param>
-    /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns>true если существует, иначе - false</returns>
-    public Task<bool> EmployeeExistsAsync(int id, CancellationToken ct = default);
+    /// <returns><see cref="EmployeeResponse"/>>.</returns>
+    public Task<EmployeeResponse> GetEmployeeAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Удалить сотрудника.
@@ -41,30 +33,30 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// Обновить сотрудника.
     /// </summary>
     /// <param name="id">Идентификатор сотрудника.</param>
-    /// <param name="employee"><see cref="Employee"/></param>
+    /// <param name="employee"><see cref="UpdateEmployeeRequest"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdateEmployeeAsync(int id, Employee employee);
+    public Task UpdateEmployeeAsync(int id, UpdateEmployeeRequest employee);
 
     /// <summary>
     /// Получить всех сотрудников.
     /// </summary>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetAllEmployeesAsync(CancellationToken ct = default);
+    /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
+    public Task<List<EmployeeResponse>> GetAllEmployeesAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанной компании.
     /// </summary>
     /// <param name="companyId">Идентификатор компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByCompanyIdAsync(int companyId, CancellationToken ct = default);
+    /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
+    public Task<List<EmployeeResponse>> GetEmployeesByCompanyIdAsync(int companyId, CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанного отдела компании.
     /// </summary>
     /// <param name="departmentId">Идентификатор отдела компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
-    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByDepartmentIdAsync(int departmentId, CancellationToken ct = default);
+    /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
+    public Task<List<EmployeeResponse>> GetEmployeesByDepartmentIdAsync(int departmentId, CancellationToken ct = default);
 }

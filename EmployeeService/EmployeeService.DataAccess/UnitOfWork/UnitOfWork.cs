@@ -1,8 +1,9 @@
 ﻿using System.Data;
-using EmployeeService.DataAccess.Repositories;
+using EmployeeService.Application.Interfaces.Repositories;
+using EmployeeService.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EmployeeService.Application.Services.UnitOfWork;
+namespace EmployeeService.DataAccess.UnitOfWork;
 
 /// <inheritdoc/>
 public class UnitOfWork : IUnitOfWork

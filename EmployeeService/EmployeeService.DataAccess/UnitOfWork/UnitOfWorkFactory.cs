@@ -1,7 +1,8 @@
 ﻿using System.Data;
+using EmployeeService.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EmployeeService.Application.Services.UnitOfWork;
+namespace EmployeeService.DataAccess.UnitOfWork;
 
 /// <inheritdoc/>
 public class UnitOfWorkFactory(IServiceProvider serviceProvider) : IUnitOfWorkFactory

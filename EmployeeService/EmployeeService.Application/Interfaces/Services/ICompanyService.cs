@@ -1,6 +1,6 @@
 ﻿using EmployeeService.Application.Contracts.Company;
 
-namespace EmployeeService.Application.Services;
+namespace EmployeeService.Application.Interfaces.Services;
 
 /// <summary>
 /// Сервис для работы с компаниями.
