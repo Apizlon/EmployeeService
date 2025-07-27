@@ -22,41 +22,42 @@ public class CompanyService : ICompanyService
     }
 
     /// <inheritdoc/>
-    public async Task<int> AddCompany(CompanyRequest company)
+    public async Task<int> AddCompanyAsync(CompanyRequest company)
     {
         company.Validate();
-        var id = await _companyRepository.AddCompany(company.MapToDomain());
+        var id = await _companyRepository.AddCompanyAsync(company.MapToDomain());
         return id;
     }
 
     /// <inheritdoc/>
-    public async Task<CompanyResponse?> GetCompany(int id, CancellationToken ct = default)
+    public async Task<CompanyResponse?> GetCompanyAsync(int id, CancellationToken ct = default)
     {
-        var company = await _companyRepository.GetCompany(id, ct) ?? throw new CompanyNotFoundException(id);
+        var company = await _companyRepository.GetCompanyAsync(id, ct) ?? throw new CompanyNotFoundException(id);
         return company.MapToDto();
     }
 
     /// <inheritdoc/>
-    public async Task<bool> CompanyExists(int id, CancellationToken ct = default)
+    public async Task DeleteCompanyAsync(int id)
     {
-        var exists = await _companyRepository.CompanyExists(id, ct);
-        return exists;
+        var exist = await _companyRepository.CompanyExistsAsync(id);
+        if (!exist)
+        {
+            throw new CompanyNotFoundException(id);
+        }
+
+        await _companyRepository.DeleteCompanyAsync(id);
     }
 
     /// <inheritdoc/>
-    public async Task DeleteCompany(int id)
+    public async Task UpdateCompanyAsync(int id, CompanyRequest company)
     {
-        var exist = await CompanyExists(id);
-        if (!exist) throw new CompanyNotFoundException(id);
-        await _companyRepository.DeleteCompany(id);
-    }
+        var exist = await _companyRepository.CompanyExistsAsync(id);
+        if (!exist)
+        {
+            throw new CompanyNotFoundException(id);
+        }
 
-    /// <inheritdoc/>
-    public async Task UpdateCompany(int id, CompanyRequest company)
-    {
-        var exist = await CompanyExists(id);
-        if (!exist) throw new CompanyNotFoundException(id);
         company.Validate();
-        await _companyRepository.UpdateCompany(company.MapToDomain(id));
+        await _companyRepository.UpdateCompanyAsync(company.MapToDomain(id));
     }
 }

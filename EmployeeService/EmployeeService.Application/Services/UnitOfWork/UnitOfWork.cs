@@ -4,13 +4,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EmployeeService.Application.Services.UnitOfWork;
 
+/// <inheritdoc/>
 public class UnitOfWork : IUnitOfWork
 {
+    /// <summary><see cref="IDbConnection"/>.</summary>
     private readonly IDbConnection _connection;
+    /// <summary><see cref="IDbTransaction"/>.</summary>
     private IDbTransaction? _transaction;
+    /// <summary><see cref="IServiceProvider"/>.</summary>
     private readonly IServiceProvider _serviceProvider;
+    /// <summary><see cref="IServiceScope"/>.</summary>
     private readonly IServiceScope _scope;
+    /// <summary>
+    /// Освобожен ли ресурс.
+    /// </summary>
     private bool _disposed;
+    /// <summary><see cref="OnDispose"/>.</summary>
     private readonly OnDispose _onDispose;
 
     public UnitOfWork(
@@ -26,6 +35,7 @@ public class UnitOfWork : IUnitOfWork
         _connection.Open();
     }
 
+    /// <inheritdoc/>
     public void BeginTransaction()
     {
         if (_transaction != null)
@@ -36,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
         _transaction = _connection.BeginTransaction();
     }
 
+    /// <inheritdoc/>
     public void Commit()
     {
         if (_transaction == null)
@@ -47,6 +58,7 @@ public class UnitOfWork : IUnitOfWork
         _transaction = null;
     }
 
+    /// <inheritdoc/>
     public void Rollback()
     {
         if (_transaction == null)
@@ -58,6 +70,7 @@ public class UnitOfWork : IUnitOfWork
         _transaction = null;
     }
 
+    /// <inheritdoc/>
     public T GetRepository<T>() where T : class
     {
         var repository = _serviceProvider.GetRequiredService<T>();
@@ -70,6 +83,7 @@ public class UnitOfWork : IUnitOfWork
         return repository;
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         if (!_disposed)
@@ -77,6 +91,11 @@ public class UnitOfWork : IUnitOfWork
             if (_transaction is not null && _onDispose == OnDispose.Rollback)
             {
                 _transaction.Rollback();
+            }
+            
+            if (_transaction is not null && _onDispose == OnDispose.Commit)
+            {
+                _transaction.Commit();
             }
 
             _transaction?.Dispose();

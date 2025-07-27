@@ -1,7 +1,7 @@
 ﻿namespace EmployeeService.Application.Contracts.Department;
 
 /// <summary>
-/// Создать Отдел компании.
+/// Создать отдел компании.
 /// </summary>
 public class AddDepartmentRequest
 {

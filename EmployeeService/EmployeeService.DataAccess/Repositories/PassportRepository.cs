@@ -33,14 +33,14 @@ public class PassportRepository : IPassportRepository
     }
 
     /// <inheritdoc/>
-    public async Task<int> AddPassport(Passport passport)
+    public async Task<int> AddPassportAsync(Passport passport)
     {
         var id = await _connection.ExecuteScalarAsync<int>(new(Sql.AddPassport, passport, _transaction));
         return id;
     }
 
     /// <inheritdoc/>
-    public async Task<Passport?> GetPassport(int id, CancellationToken ct = default)
+    public async Task<Passport?> GetPassportAsync(int id, CancellationToken ct = default)
     {
         var passport =
             await _connection.QuerySingleOrDefaultAsync<Passport>(new(Sql.GetPassport, new { Id = id }, _transaction,
@@ -49,7 +49,7 @@ public class PassportRepository : IPassportRepository
     }
 
     /// <inheritdoc/>
-    public async Task<bool> PassportExists(int id, CancellationToken ct = default)
+    public async Task<bool> PassportExistsAsync(int id, CancellationToken ct = default)
     {
         var exists =
             await _connection.ExecuteScalarAsync<bool>(new(Sql.PassportExists, new { Id = id }, _transaction,
@@ -58,13 +58,13 @@ public class PassportRepository : IPassportRepository
     }
 
     /// <inheritdoc/>
-    public async Task DeletePassport(int id)
+    public async Task DeletePassportAsync(int id)
     {
         await _connection.ExecuteAsync(Sql.DeletePassport, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>
-    public async Task UpdatePassport(int id, Passport passport)
+    public async Task UpdatePassportAsync(Passport passport)
     {
         await _connection.ExecuteAsync(new(Sql.UpdatePassport, passport, _transaction));
     }

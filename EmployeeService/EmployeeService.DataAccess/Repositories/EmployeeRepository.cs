@@ -33,14 +33,14 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task<int> AddEmployee(Employee employee)
+    public async Task<int> AddEmployeeAsync(Employee employee)
     {
         var id = await _connection.ExecuteScalarAsync<int>(new(Sql.AddEmployee, employee, _transaction));
         return id;
     }
 
     /// <inheritdoc/>
-    public async Task<Employee?> GetEmployee(int id, CancellationToken ct = default)
+    public async Task<Employee?> GetEmployeeAsync(int id, CancellationToken ct = default)
     {
         var employee =
             await _connection.QuerySingleOrDefaultAsync<Employee>(new(Sql.GetEmployee, new { Id = id }, _transaction,
@@ -49,7 +49,7 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task<bool> EmployeeExists(int id, CancellationToken ct = default)
+    public async Task<bool> EmployeeExistsAsync(int id, CancellationToken ct = default)
     {
         var exists =
             await _connection.ExecuteScalarAsync<bool>(new(Sql.EmployeeExists, new { Id = id }, _transaction,
@@ -58,19 +58,19 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task DeleteEmployee(int id)
+    public async Task DeleteEmployeeAsync(int id)
     {
         await _connection.ExecuteAsync(Sql.DeleteEmployee, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>
-    public async Task UpdateEmployee(int id, Employee employee)
+    public async Task UpdateEmployeeAsync(int id, Employee employee)
     {
         await _connection.ExecuteAsync(new(Sql.UpdateEmployee, employee, _transaction));
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetAllEmployees(CancellationToken ct = default)
+    public async Task<IEnumerable<Employee>> GetAllEmployeesAsync(CancellationToken ct = default)
     {
         var employees =
             await _connection.QueryAsync<Employee>(new(Sql.GetAllEmployees, _transaction, cancellationToken: ct));
@@ -78,7 +78,7 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default)
+    public async Task<IEnumerable<Employee>> GetEmployeesByCompanyIdAsync(int companyId, CancellationToken ct = default)
     {
         var employees = await _connection.QueryAsync<Employee>(new(Sql.GetEmployeesByCompanyId,
             new { CompanyId = companyId }, _transaction, cancellationToken: ct));
@@ -86,7 +86,7 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId,
+    public async Task<IEnumerable<Employee>> GetEmployeesByDepartmentIdAsync(int departmentId,
         CancellationToken ct = default)
     {
         var employees = await _connection.QueryAsync<Employee>(new(Sql.GetEmployeesByDepartmentId,

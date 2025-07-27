@@ -12,7 +12,7 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// </summary>
     /// <param name="employee"><see cref="Employee"/>.</param>
     /// <returns>Индентификатор сотрудника.</returns>
-    public Task<int> AddEmployee(Employee employee);
+    public Task<int> AddEmployeeAsync(Employee employee);
 
     /// <summary>
     /// Получить сотрудника.
@@ -20,7 +20,7 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="Employee"/>>.</returns>
-    public Task<Employee?> GetEmployee(int id, CancellationToken ct = default);
+    public Task<Employee?> GetEmployeeAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Существует ли сотрудник.
@@ -28,14 +28,14 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns>true если существует, иначе - false</returns>
-    public Task<bool> EmployeeExists(int id, CancellationToken ct = default);
+    public Task<bool> EmployeeExistsAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Удалить сотрудника.
     /// </summary>
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <returns><see cref="Task"/></returns>
-    public Task DeleteEmployee(int id);
+    public Task DeleteEmployeeAsync(int id);
 
     /// <summary>
     /// Обновить сотрудника.
@@ -43,14 +43,14 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="employee"><see cref="Employee"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdateEmployee(int id, Employee employee);
+    public Task UpdateEmployeeAsync(int id, Employee employee);
 
     /// <summary>
     /// Получить всех сотрудников.
     /// </summary>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetAllEmployees(CancellationToken ct = default);
+    public Task<IEnumerable<Employee>> GetAllEmployeesAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанной компании.
@@ -58,7 +58,7 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <param name="companyId">Идентификатор компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default);
+    public Task<IEnumerable<Employee>> GetEmployeesByCompanyIdAsync(int companyId, CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанного отдела компании.
@@ -66,5 +66,5 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <param name="departmentId">Идентификатор отдела компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId, CancellationToken ct = default);
+    public Task<IEnumerable<Employee>> GetEmployeesByDepartmentIdAsync(int departmentId, CancellationToken ct = default);
 }

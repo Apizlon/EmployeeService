@@ -6,8 +6,12 @@ using Serilog;
 
 namespace EmployeeService.Api.Filters;
 
+/// <summary>
+/// Фильтр исключений.
+/// </summary>
 public class CustomExceptionFilter : IExceptionFilter
 {
+    /// <inheritdoc />
     public void OnException(ExceptionContext context)
     {
         Log.Error(context.Exception, "Unhandled exception occurred: {ExceptionMessage}",
@@ -24,7 +28,7 @@ public class CustomExceptionFilter : IExceptionFilter
             BadRequestException _ => (int)HttpStatusCode.BadRequest,
             ArgumentException _ => (int)HttpStatusCode.BadRequest,
             InvalidOperationException _ => (int)HttpStatusCode.BadRequest,
-            NotFoundException _ => (int)HttpStatusCode.NotFound,
+            NotFoundException _ => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError
         };
 

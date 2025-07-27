@@ -12,7 +12,7 @@ public interface IEmployeeService
     /// </summary>
     /// <param name="employee"><see cref="AddEmployeeRequest"/>.</param>
     /// <returns>Индентификатор сотрудника.</returns>
-    public Task<int> AddEmployee(AddEmployeeRequest employee);
+    public Task<int> AddEmployeeAsync(AddEmployeeRequest employee);
 
     /// <summary>
     /// Получить сотрудника.
@@ -20,14 +20,14 @@ public interface IEmployeeService
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="EmployeeResponse"/>>.</returns>
-    public Task<EmployeeResponse> GetEmployee(int id, CancellationToken ct = default);
+    public Task<EmployeeResponse> GetEmployeeAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Удалить сотрудника.
     /// </summary>
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <returns><see cref="Task"/></returns>
-    public Task DeleteEmployee(int id);
+    public Task DeleteEmployeeAsync(int id);
 
     /// <summary>
     /// Обновить сотрудника.
@@ -35,14 +35,14 @@ public interface IEmployeeService
     /// <param name="id">Идентификатор сотрудника.</param>
     /// <param name="employee"><see cref="UpdateEmployeeRequest"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdateEmployee(int id, UpdateEmployeeRequest employee);
+    public Task UpdateEmployeeAsync(int id, UpdateEmployeeRequest employee);
 
     /// <summary>
     /// Получить всех сотрудников.
     /// </summary>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
-    public Task<List<EmployeeResponse>> GetAllEmployees(CancellationToken ct = default);
+    public Task<List<EmployeeResponse>> GetAllEmployeesAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанной компании.
@@ -50,7 +50,7 @@ public interface IEmployeeService
     /// <param name="companyId">Идентификатор компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
-    public Task<List<EmployeeResponse>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default);
+    public Task<List<EmployeeResponse>> GetEmployeesByCompanyIdAsync(int companyId, CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанного отдела компании.
@@ -58,5 +58,5 @@ public interface IEmployeeService
     /// <param name="departmentId">Идентификатор отдела компании.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="List{T}"/> of <see cref="EmployeeResponse"/></returns>
-    public Task<List<EmployeeResponse>> GetEmployeesByDepartmentId(int departmentId, CancellationToken ct = default);
+    public Task<List<EmployeeResponse>> GetEmployeesByDepartmentIdAsync(int departmentId, CancellationToken ct = default);
 }

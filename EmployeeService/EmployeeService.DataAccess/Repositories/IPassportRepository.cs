@@ -12,7 +12,7 @@ public interface IPassportRepository : ITransactionalRepository
     /// </summary>
     /// <param name="passport"><see cref="Passport"/>.</param>
     /// <returns>Индентификатор паспорта.</returns>
-    public Task<int> AddPassport(Passport passport);
+    public Task<int> AddPassportAsync(Passport passport);
 
     /// <summary>
     /// Получить паспорт.
@@ -20,7 +20,7 @@ public interface IPassportRepository : ITransactionalRepository
     /// <param name="id">Идентификатор паспорта.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns><see cref="Passport"/>>.</returns>
-    public Task<Passport?> GetPassport(int id, CancellationToken ct = default);
+    public Task<Passport?> GetPassportAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Существует ли паспорт.
@@ -28,20 +28,19 @@ public interface IPassportRepository : ITransactionalRepository
     /// <param name="id">Идентификатор паспорта.</param>
     /// <param name="ct"><see cref="CancellationToken"/>.</param>
     /// <returns>true если существует, иначе - false</returns>
-    public Task<bool> PassportExists(int id, CancellationToken ct = default);
+    public Task<bool> PassportExistsAsync(int id, CancellationToken ct = default);
 
     /// <summary>
     /// Удалить паспорт.
     /// </summary>
     /// <param name="id">Идентификатор паспорта.</param>
     /// <returns><see cref="Task"/></returns>
-    public Task DeletePassport(int id);
+    public Task DeletePassportAsync(int id);
 
     /// <summary>
     /// Обновить паспорт.
     /// </summary>
-    /// <param name="id">Идентификатор паспорта.</param>
     /// <param name="passport"><see cref="Passport"/></param>
     /// <returns><see cref="Task"/></returns>
-    public Task UpdatePassport(int id, Passport passport);
+    public Task UpdatePassportAsync(Passport passport);
 }

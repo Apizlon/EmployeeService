@@ -27,45 +27,49 @@ public class DepartmentService : IDepartmentService
     }
 
     /// <inheritdoc/>
-    public async Task<int> AddDepartment(AddDepartmentRequest department)
+    public async Task<int> AddDepartmentAsync(AddDepartmentRequest department)
     {
-        var companyExists = await _companyRepository.CompanyExists(department.CompanyId);
+        var companyExists = await _companyRepository.CompanyExistsAsync(department.CompanyId);
         department.ValidateAdd(companyExists);
-        var id = await _departmentRepository.AddDepartment(department.MapToDomain());
+        var id = await _departmentRepository.AddDepartmentAsync(department.MapToDomain());
         return id;
     }
 
     /// <inheritdoc/>
-    public async Task<DepartmentResponse?> GetDepartment(int id, CancellationToken ct = default)
+    public async Task<DepartmentResponse?> GetDepartmentAsync(int id, CancellationToken ct = default)
     {
-        var department = await _departmentRepository.GetDepartment(id, ct) ?? throw new DepartmentNotFoundException(id);
+        var department = await _departmentRepository.GetDepartmentAsync(id, ct) ??
+                         throw new DepartmentNotFoundException(id);
         return department.MapToDto();
     }
 
     /// <inheritdoc/>
-    public async Task<bool> DepartmentExists(int id, CancellationToken ct = default)
+    public async Task DeleteDepartmentAsync(int id)
     {
-        var exists = await _departmentRepository.DepartmentExists(id, ct);
-        return exists;
+        if (!await _departmentRepository.DepartmentExistsAsync(id))
+        {
+            throw new DepartmentNotFoundException(id);
+        }
+
+        await _departmentRepository.DeleteDepartmentAsync(id);
     }
 
     /// <inheritdoc/>
-    public async Task DeleteDepartment(int id)
+    public async Task UpdateDepartmentAsync(int id, UpdateDepartmentRequest department)
     {
-        var exist = await DepartmentExists(id);
-        if (!exist) throw new DepartmentNotFoundException(id);
-        await _departmentRepository.DeleteDepartment(id);
-    }
+        if (await _departmentRepository.DepartmentExistsAsync(id))
+        {
+            throw new DepartmentNotFoundException(id);
+        }
 
-    /// <inheritdoc/>
-    public async Task UpdateDepartment(int id, UpdateDepartmentRequest department)
-    {
-        var exist = await DepartmentExists(id);
-        if (!exist) throw new DepartmentNotFoundException(id);
         var companyExists = true;
         if (department.CompanyId is not null)
-            companyExists = await _companyRepository.CompanyExists(department.CompanyId.Value);
+        {
+            companyExists = await _companyRepository.CompanyExistsAsync(department.CompanyId.Value);
+        }
+
         department.ValidateUpdate(companyExists);
-        await _departmentRepository.UpdateDepartment(department.MapToDomain(id));
+
+        await _departmentRepository.UpdateDepartmentAsync(department.MapToDomain(id));
     }
 }
