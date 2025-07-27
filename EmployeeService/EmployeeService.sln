@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeService.DataAccess"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeService.Application", "EmployeeService.Application\EmployeeService.Application.csproj", "{98F10530-B13C-4532-9072-A0CF582CAB78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeService.Tests", "EmployeeService.Tests\EmployeeService.Tests.csproj", "{DEC653BB-3077-4105-97BE-40C2DEC9DE6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{98F10530-B13C-4532-9072-A0CF582CAB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98F10530-B13C-4532-9072-A0CF582CAB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98F10530-B13C-4532-9072-A0CF582CAB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEC653BB-3077-4105-97BE-40C2DEC9DE6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC653BB-3077-4105-97BE-40C2DEC9DE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC653BB-3077-4105-97BE-40C2DEC9DE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC653BB-3077-4105-97BE-40C2DEC9DE6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

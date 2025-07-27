@@ -22,8 +22,8 @@ public static class EmployeeValidator
         if (department.CompanyId != employee.CompanyId)
             throw new BadRequestException("Error. The specified company does not have such a department.");
         ValidateName(employee.Name!);
-        ValidateName(employee.Surname!);
-        ValidateName(employee.Phone!);
+        ValidateSurname(employee.Surname!);
+        ValidatePhone(employee.Phone!);
         if (employee.Passport is null) throw new BadRequestException("Error. Passport is not provided");
         employee.Passport.ValidateAdd();
         return employee;
@@ -47,12 +47,12 @@ public static class EmployeeValidator
 
         if (employee.Surname is not null)
         {
-            ValidateName(employee.Surname!);
+            ValidateSurname(employee.Surname!);
         }
 
         if (employee.Phone is not null)
         {
-            ValidateName(employee.Phone!);
+            ValidatePhone(employee.Phone!);
         }
 
         await employee.ValidateOrgAndDepartmentUpdate(oldEmployee, departmentRepository);

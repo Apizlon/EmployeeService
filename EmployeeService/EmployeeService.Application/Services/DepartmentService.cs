@@ -57,7 +57,7 @@ public class DepartmentService : IDepartmentService
     /// <inheritdoc/>
     public async Task UpdateDepartmentAsync(int id, UpdateDepartmentRequest department)
     {
-        if (await _departmentRepository.DepartmentExistsAsync(id))
+        if (!await _departmentRepository.DepartmentExistsAsync(id))
         {
             throw new DepartmentNotFoundException(id);
         }
