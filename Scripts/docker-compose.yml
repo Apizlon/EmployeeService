@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  employee-service:
+    build:
+      context: ..
+      dockerfile: ./scripts/Dockerfile
+      args:
+        - BUILD_CONFIG=${BUILD_CONFIG:-Release}
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ConnectionStrings__EmployeeDatabaseConnection=Host=postgres;Port=5432;Database=EmployeeDb;Username=postgres;Password=postgres
+    networks:
+      - employee-net
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=EmployeeDb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - employee-net
+
+networks:
+  employee-net:
+    driver: bridge
+
+volumes:
+  pgdata:
