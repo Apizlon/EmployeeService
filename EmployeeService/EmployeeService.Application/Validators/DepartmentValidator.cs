@@ -5,20 +5,13 @@ namespace EmployeeService.Application.Validators;
 
 public static class DepartmentValidator
 {
-    public static AddDepartmentRequest ValidateAdd(this AddDepartmentRequest addDepartment, bool companyExists)
+    public static AddDepartmentRequest ValidateAdd(this AddDepartmentRequest department, bool companyExists)
     {
-        if (!companyExists) throw new CompanyNotFoundException(addDepartment.CompanyId);
-        if (string.IsNullOrWhiteSpace(addDepartment.Name))
-        {
-            throw new BadRequestException("Error. Empty department name.");
-        }
+        if (!companyExists) throw new CompanyNotFoundException(department.CompanyId);
+        ValidatorUtils.WhiteSpaceCheck(department.Name, "Department Name");
+        ValidatorUtils.WhiteSpaceCheck(department.Phone, "Department Phone");
 
-        if (string.IsNullOrWhiteSpace(addDepartment.Phone))
-        {
-            throw new BadRequestException("Error. Empty department phone.");
-        }
-
-        return addDepartment;
+        return department;
     }
 
     /// <summary>
@@ -33,15 +26,9 @@ public static class DepartmentValidator
     public static UpdateDepartmentRequest ValidateUpdate(this UpdateDepartmentRequest department, bool companyExists)
     {
         if (!companyExists) throw new CompanyNotFoundException(department.CompanyId!.Value);
-        if (department.Name is not null && string.IsNullOrWhiteSpace(department.Name))
-        {
-            throw new BadRequestException("Error. Department name contain only whitespaces.");
-        }
+        if (department.Name is not null) ValidatorUtils.WhiteSpaceCheck(department.Name, "Department Name");
 
-        if (department.Phone is not null && string.IsNullOrWhiteSpace(department.Phone))
-        {
-            throw new BadRequestException("Error. Department phone contain only whitespaces.");
-        }
+        if (department.Phone is not null) ValidatorUtils.WhiteSpaceCheck(department.Phone, "Department Phone");
 
         return department;
     }

@@ -43,7 +43,7 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task<Employee?> GetEmployee(int id, CancellationToken ct = default)
     {
         var employee =
-            await _connection.QuerySingleOrDefaultAsync<Employee>(new(Sql.GetEmployee, id, _transaction,
+            await _connection.QuerySingleOrDefaultAsync<Employee>(new(Sql.GetEmployee, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return employee;
     }
@@ -52,7 +52,7 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task<bool> EmployeeExists(int id, CancellationToken ct = default)
     {
         var exists =
-            await _connection.ExecuteScalarAsync<bool>(new(Sql.EmployeeExists, id, _transaction,
+            await _connection.ExecuteScalarAsync<bool>(new(Sql.EmployeeExists, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return exists;
     }
@@ -60,7 +60,7 @@ public class EmployeeRepository : IEmployeeRepository
     /// <inheritdoc/>
     public async Task DeleteEmployee(int id)
     {
-        await _connection.ExecuteAsync(Sql.DeleteEmployee, id, _transaction);
+        await _connection.ExecuteAsync(Sql.DeleteEmployee, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>
@@ -70,23 +70,27 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetAllEmployees()
+    public async Task<IEnumerable<Employee>> GetAllEmployees(CancellationToken ct = default)
     {
-        var employees = await _connection.QueryAsync<Employee>(new(Sql.GetAllEmployees, _transaction));
+        var employees =
+            await _connection.QueryAsync<Employee>(new(Sql.GetAllEmployees, _transaction, cancellationToken: ct));
         return employees;
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId)
+    public async Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default)
     {
-        var employees = await _connection.QueryAsync<Employee>(new(Sql.GetAllEmployees, companyId, _transaction));
+        var employees = await _connection.QueryAsync<Employee>(new(Sql.GetEmployeesByCompanyId,
+            new { CompanyId = companyId }, _transaction, cancellationToken: ct));
         return employees;
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId)
+    public async Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId,
+        CancellationToken ct = default)
     {
-        var employees = await _connection.QueryAsync<Employee>(new(Sql.GetAllEmployees, departmentId, _transaction));
+        var employees = await _connection.QueryAsync<Employee>(new(Sql.GetEmployeesByDepartmentId,
+            new { DepartmentId = departmentId }, _transaction, cancellationToken: ct));
         return employees;
     }
 }

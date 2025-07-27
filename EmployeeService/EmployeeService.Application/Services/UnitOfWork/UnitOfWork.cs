@@ -12,7 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private bool _disposed;
     private readonly OnDispose _onDispose;
 
-    public UnitOfWork(IDbConnection connection, IServiceProvider serviceProvider, OnDispose onDispose = OnDispose.Rollback)
+    public UnitOfWork(IDbConnection connection, IServiceProvider serviceProvider, OnDispose onDispose = OnDispose.Commit)
     {
         _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));

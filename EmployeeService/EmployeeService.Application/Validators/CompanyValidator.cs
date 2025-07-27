@@ -7,10 +7,7 @@ public static class CompanyValidator
 {
     public static CompanyRequest Validate(this CompanyRequest companyDto)
     {
-        if (string.IsNullOrWhiteSpace(companyDto.Name))
-        {
-            throw new BadRequestException("Error. Empty company name.");
-        }
+        ValidatorUtils.WhiteSpaceCheck(companyDto.Name, "Company Name");
 
         return companyDto;
     }

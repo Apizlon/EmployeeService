@@ -2,5 +2,5 @@
 
 public interface IUnitOfWorkFactory
 {
-    IUnitOfWork Create(OnDispose onDispose = OnDispose.Rollback);
+    IUnitOfWork Create(OnDispose onDispose = OnDispose.Commit);
 }

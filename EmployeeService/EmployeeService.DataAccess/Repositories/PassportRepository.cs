@@ -43,7 +43,7 @@ public class PassportRepository : IPassportRepository
     public async Task<Passport?> GetPassport(int id, CancellationToken ct = default)
     {
         var passport =
-            await _connection.QuerySingleOrDefaultAsync<Passport>(new(Sql.GetPassport, id, _transaction,
+            await _connection.QuerySingleOrDefaultAsync<Passport>(new(Sql.GetPassport, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return passport;
     }
@@ -52,7 +52,7 @@ public class PassportRepository : IPassportRepository
     public async Task<bool> PassportExists(int id, CancellationToken ct = default)
     {
         var exists =
-            await _connection.ExecuteScalarAsync<bool>(new(Sql.PassportExists, id, _transaction,
+            await _connection.ExecuteScalarAsync<bool>(new(Sql.PassportExists, new { Id = id }, _transaction,
                 cancellationToken: ct));
         return exists;
     }
@@ -60,7 +60,7 @@ public class PassportRepository : IPassportRepository
     /// <inheritdoc/>
     public async Task DeletePassport(int id)
     {
-        await _connection.ExecuteAsync(Sql.DeletePassport, id, _transaction);
+        await _connection.ExecuteAsync(Sql.DeletePassport, new { Id = id }, _transaction);
     }
 
     /// <inheritdoc/>

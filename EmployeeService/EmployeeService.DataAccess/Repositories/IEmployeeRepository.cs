@@ -8,7 +8,7 @@ namespace EmployeeService.DataAccess.Repositories;
 public interface IEmployeeRepository : ITransactionalRepository
 {
     /// <summary>
-    /// Добавить сотрудник.
+    /// Добавить сотрудника.
     /// </summary>
     /// <param name="employee"><see cref="Employee"/>.</param>
     /// <returns>Индентификатор сотрудника.</returns>
@@ -48,20 +48,23 @@ public interface IEmployeeRepository : ITransactionalRepository
     /// <summary>
     /// Получить всех сотрудников.
     /// </summary>
-    /// <returns><see cref="IEnumerable{T}"/>> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetAllEmployees();
+    /// <param name="ct"><see cref="CancellationToken"/>.</param>
+    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
+    public Task<IEnumerable<Employee>> GetAllEmployees(CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанной компании.
     /// </summary>
     /// <param name="companyId">Идентификатор компании.</param>
-    /// <returns><see cref="IEnumerable{T}"/>> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId);
+    /// <param name="ct"><see cref="CancellationToken"/>.</param>
+    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
+    public Task<IEnumerable<Employee>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default);
 
     /// <summary>
     /// Получить сотрудников для указанного отдела компании.
     /// </summary>
-    /// <param name="departmentId">Идентификатор компании.</param>
-    /// <returns><see cref="IEnumerable{T}"/>> of <see cref="Employee"/></returns>
-    public Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId);
+    /// <param name="departmentId">Идентификатор отдела компании.</param>
+    /// <param name="ct"><see cref="CancellationToken"/>.</param>
+    /// <returns><see cref="IEnumerable{T}"/> of <see cref="Employee"/></returns>
+    public Task<IEnumerable<Employee>> GetEmployeesByDepartmentId(int departmentId, CancellationToken ct = default);
 }
