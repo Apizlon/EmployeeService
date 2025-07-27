@@ -14,11 +14,9 @@ public static class ServiceExtension
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <returns><see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    public static IServiceCollection AddUnitOfWorkFactory(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
-
         return services;
     }
 

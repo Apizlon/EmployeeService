@@ -18,7 +18,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<int> AddEmployeeAsync(EmployeeRequestDto employee)
+    public async Task<int> AddEmployeeAsync(AddEmployeeRequest employee)
     {
         _logger.LogInformation("Adding a employee.");
         var id = await _employeeService.AddEmployee(employee);
@@ -27,7 +27,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet("{id:int}")]
-    public async Task<EmployeeResponseDto> GetEmployeeAsync(int id, CancellationToken ct = default)
+    public async Task<EmployeeResponse> GetEmployeeAsync(int id, CancellationToken ct = default)
     {
         _logger.LogInformation($"Obtaining a employee with id {id}.");
         var employee = await _employeeService.GetEmployee(id, ct);
@@ -36,7 +36,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpPatch("{id:int}")]
-    public async Task UpdateEmployeeAsync(int id, EmployeeRequestDto employee)
+    public async Task UpdateEmployeeAsync(int id, UpdateEmployeeRequest employee)
     {
         _logger.LogInformation($"Updating a employee with id {id}.");
         await _employeeService.UpdateEmployee(id, employee);
@@ -52,7 +52,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<List<EmployeeResponseDto>> GetAllEmployeesAsync(CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetAllEmployeesAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("Obtaining all employees.");
         var employees = await _employeeService.GetAllEmployees(ct);
@@ -61,7 +61,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet("company/{id:int}")]
-    public async Task<List<EmployeeResponseDto>> GetEmployeeByCompanyIdAsync(int id, CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetEmployeeByCompanyIdAsync(int id, CancellationToken ct = default)
     {
         _logger.LogInformation($"Obtaining employees from company with id {id}.");
         var employees = await _employeeService.GetEmployeesByCompanyId(id, ct);
@@ -70,7 +70,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet("department/{id:int}")]
-    public async Task<List<EmployeeResponseDto>> GetEmployeeByDepartmentIdAsync(int id, CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetEmployeeByDepartmentIdAsync(int id, CancellationToken ct = default)
     {
         _logger.LogInformation($"Obtaining employees from department with id {id}.");
         var employees = await _employeeService.GetEmployeesByDepartmentId(id, ct);

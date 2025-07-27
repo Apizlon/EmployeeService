@@ -1,15 +1,10 @@
 ﻿namespace EmployeeService.Application.Contracts.Employee;
 
 /// <summary>
-/// DTO для создания/обновления сотрудника.
+/// DTO для обновления сотрудника.
 /// </summary>
-public class EmployeeRequestDto
+public class UpdateEmployeeRequest
 {
-    /// <summary>
-    /// Идентификатор.
-    /// </summary>
-    public int Id { get; set; }
-
     /// <summary>
     /// Имя.
     /// </summary>
@@ -33,10 +28,10 @@ public class EmployeeRequestDto
     /// <summary>
     /// Идентификатор компании.
     /// </summary>
-    public int CompanyId { get; set; }
+    public int? CompanyId { get; set; }
 
     /// <summary>
     /// Идентификатор отдела компании.
     /// </summary>
-    public int DepartmentId { get; set; }
+    public int? DepartmentId { get; set; }
 }

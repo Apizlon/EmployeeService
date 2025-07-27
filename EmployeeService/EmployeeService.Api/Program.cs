@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDatabase(builder.Configuration);
 
 builder.Services.AddRepositories();
-builder.Services.AddUnitOfWork();
+builder.Services.AddUnitOfWorkFactory();
 builder.Services.AddServices();
 
 var app = builder.Build();

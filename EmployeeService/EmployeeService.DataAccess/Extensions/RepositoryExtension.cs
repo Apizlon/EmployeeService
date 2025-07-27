@@ -15,10 +15,10 @@ public static class RepositoryExtension
     /// <returns><see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IPassportRepository, PassportRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
         return services;
     }

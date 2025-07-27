@@ -25,13 +25,13 @@ public class EmployeeService : IEmployeeService
     }
 
     /// <inheritdoc/>
-    public async Task<int> AddEmployee(EmployeeRequestDto employee)
+    public async Task<int> AddEmployee(AddEmployeeRequest employee)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
         unitOfWork.BeginTransaction();
-        var departmentRepository = unitOfWork.GetRepository<DepartmentRepository>();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var passportRepository = unitOfWork.GetRepository<PassportRepository>();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
 
         var department = await departmentRepository.GetDepartment(employee.DepartmentId) ??
                          throw new DepartmentNotFoundException(employee.DepartmentId);
@@ -45,12 +45,12 @@ public class EmployeeService : IEmployeeService
     }
 
     /// <inheritdoc/>
-    public async Task<EmployeeResponseDto> GetEmployee(int id, CancellationToken ct = default)
+    public async Task<EmployeeResponse> GetEmployee(int id, CancellationToken ct = default)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var passportRepository = unitOfWork.GetRepository<PassportRepository>();
-        var departmentRepository = unitOfWork.GetRepository<DepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
 
         var employee = await employeeRepository.GetEmployee(id, ct) ?? throw new EmployeeNotFoundException(id);
         var passport = await passportRepository.GetPassport(employee.PassportId, ct) ??
@@ -65,28 +65,41 @@ public class EmployeeService : IEmployeeService
     public async Task DeleteEmployee(int id)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
         var employeeExists = await employeeRepository.EmployeeExists(id);
         if (!employeeExists) throw new EmployeeNotFoundException(id);
         await employeeRepository.DeleteEmployee(id);
     }
 
     /// <inheritdoc/>
-    public async Task UpdateEmployee(int id, EmployeeRequestDto employee)
+    public async Task UpdateEmployee(int id, UpdateEmployeeRequest employee)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var employeeExists = await employeeRepository.EmployeeExists(id);
-        if (!employeeExists) throw new EmployeeNotFoundException(id);
+        unitOfWork.BeginTransaction();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var oldEmployee = await employeeRepository.GetEmployee(id) ?? throw new EmployeeNotFoundException(id);
+
+        await employee.ValidateUpdate(oldEmployee, departmentRepository);
+        await employeeRepository.UpdateEmployee(id, employee.MapToDomain());
+
+        if (employee.Passport is not null)
+        {
+            employee.Passport.ValidateUpdate();
+            var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
+            await passportRepository.UpdatePassport(oldEmployee.PassportId, employee.Passport.MapToDomain());
+        }
+
+        unitOfWork.Commit();
     }
 
     /// <inheritdoc/>
-    public async Task<List<EmployeeResponseDto>> GetAllEmployees(CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetAllEmployees(CancellationToken ct = default)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var passportRepository = unitOfWork.GetRepository<PassportRepository>();
-        var departmentRepository = unitOfWork.GetRepository<DepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
 
         var employees = await employeeRepository.GetAllEmployees(ct);
         var result = ObtainPassportAndDepartmentForEmployees(passportRepository, departmentRepository, employees, ct);
@@ -94,12 +107,12 @@ public class EmployeeService : IEmployeeService
     }
 
     /// <inheritdoc/>
-    public async Task<List<EmployeeResponseDto>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetEmployeesByCompanyId(int companyId, CancellationToken ct = default)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var passportRepository = unitOfWork.GetRepository<PassportRepository>();
-        var departmentRepository = unitOfWork.GetRepository<DepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
 
         var employees = await employeeRepository.GetEmployeesByCompanyId(companyId, ct);
         var result = ObtainPassportAndDepartmentForEmployees(passportRepository, departmentRepository, employees, ct);
@@ -107,20 +120,21 @@ public class EmployeeService : IEmployeeService
     }
 
     /// <inheritdoc/>
-    public async Task<List<EmployeeResponseDto>> GetEmployeesByDepartmentId(int departmentId, CancellationToken ct = default)
+    public async Task<List<EmployeeResponse>> GetEmployeesByDepartmentId(int departmentId,
+        CancellationToken ct = default)
     {
         using var unitOfWork = _unitOfWorkFactory.Create();
-        var employeeRepository = unitOfWork.GetRepository<EmployeeRepository>();
-        var passportRepository = unitOfWork.GetRepository<PassportRepository>();
-        var departmentRepository = unitOfWork.GetRepository<DepartmentRepository>();
+        var employeeRepository = unitOfWork.GetRepository<IEmployeeRepository>();
+        var passportRepository = unitOfWork.GetRepository<IPassportRepository>();
+        var departmentRepository = unitOfWork.GetRepository<IDepartmentRepository>();
 
         var employees = await employeeRepository.GetEmployeesByDepartmentId(departmentId, ct);
         var result = ObtainPassportAndDepartmentForEmployees(passportRepository, departmentRepository, employees, ct);
         return await result.ToListAsync(ct);
     }
 
-    private static async IAsyncEnumerable<EmployeeResponseDto> ObtainPassportAndDepartmentForEmployees(
-        PassportRepository passportRepository, DepartmentRepository departmentRepository,
+    private static async IAsyncEnumerable<EmployeeResponse> ObtainPassportAndDepartmentForEmployees(
+        IPassportRepository passportRepository, IDepartmentRepository departmentRepository,
         IEnumerable<Employee> employees, [EnumeratorCancellation] CancellationToken ct = default)
     {
         foreach (var employee in employees)

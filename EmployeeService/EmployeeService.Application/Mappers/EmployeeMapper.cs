@@ -6,7 +6,7 @@ namespace EmployeeService.Application.Mappers;
 
 public static class EmployeeMapper
 {
-    public static EmployeeResponseDto MapToDto(this Employee employee, Passport passport, Department department) =>
+    public static EmployeeResponse MapToDto(this Employee employee, Passport passport, Department department) =>
         new()
         {
             Id = employee.Id,
@@ -21,16 +21,26 @@ public static class EmployeeMapper
             },
             Department = department.MapToDto(),
         };
-    
-    public static Employee MapToDomain(this EmployeeRequestDto employee, int passportId) =>
+
+    public static Employee MapToDomain(this AddEmployeeRequest employee, int passportId) =>
         new()
         {
-            Id = employee.Id,
             Name = employee.Name,
             Surname = employee.Surname,
             Phone = employee.Phone,
             CompanyId = employee.CompanyId,
             PassportId = passportId,
             DepartmentId = employee.DepartmentId,
+        };
+
+    public static Employee MapToDomain(this UpdateEmployeeRequest employee) =>
+        new()
+        {
+            Name = employee.Name,
+            Surname = employee.Surname,
+            Phone = employee.Phone,
+            CompanyId = employee.CompanyId ?? 0,
+            PassportId = 0,
+            DepartmentId = employee.DepartmentId ?? 0,
         };
 }

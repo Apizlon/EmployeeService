@@ -9,13 +9,19 @@ public class UnitOfWork : IUnitOfWork
     private readonly IDbConnection _connection;
     private IDbTransaction? _transaction;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScope _scope;
     private bool _disposed;
     private readonly OnDispose _onDispose;
 
-    public UnitOfWork(IDbConnection connection, IServiceProvider serviceProvider, OnDispose onDispose = OnDispose.Commit)
+    public UnitOfWork(
+        IDbConnection connection,
+        IServiceProvider serviceProvider,
+        IServiceScope scope,
+        OnDispose onDispose = OnDispose.Commit)
     {
         _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _scope = scope ?? throw new ArgumentNullException(nameof(scope));
         _onDispose = onDispose;
         _connection.Open();
     }
@@ -54,11 +60,8 @@ public class UnitOfWork : IUnitOfWork
 
     public T GetRepository<T>() where T : class
     {
-        // Создаем новый scope для каждого вызова GetRepository
-        using var scope = _serviceProvider.CreateScope();
-        var repository = scope.ServiceProvider.GetRequiredService<T>();
+        var repository = _serviceProvider.GetRequiredService<T>();
 
-        // Если репозиторий реализует интерфейс, который ожидает транзакцию, устанавливаем ее
         if (_transaction != null && repository is ITransactionalRepository transactionalRepo)
         {
             transactionalRepo.SetTransaction(_transaction);
@@ -78,6 +81,7 @@ public class UnitOfWork : IUnitOfWork
 
             _transaction?.Dispose();
             _connection.Dispose();
+            _scope.Dispose();
             _disposed = true;
         }
     }

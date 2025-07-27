@@ -5,9 +5,14 @@ namespace EmployeeService.Application.Services.UnitOfWork;
 
 public class UnitOfWorkFactory(IServiceProvider serviceProvider) : IUnitOfWorkFactory
 {
+    private readonly IServiceProvider _serviceProvider =
+        serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+
     public IUnitOfWork Create(OnDispose onDispose = OnDispose.Commit)
     {
-        var connection = serviceProvider.GetRequiredService<IDbConnection>();
-        return new UnitOfWork(connection, serviceProvider, onDispose);
+        var scope = _serviceProvider.CreateScope();
+        var connection = scope.ServiceProvider.GetRequiredService<IDbConnection>();
+
+        return new UnitOfWork(connection, scope.ServiceProvider, scope, onDispose);
     }
 }

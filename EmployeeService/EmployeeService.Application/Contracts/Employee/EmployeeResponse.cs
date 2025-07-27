@@ -5,7 +5,7 @@ namespace EmployeeService.Application.Contracts.Employee;
 /// <summary>
 /// DTO для получения сотрудника.
 /// </summary>
-public class EmployeeResponseDto
+public class EmployeeResponse
 {
     /// <summary>
     /// Идентификатор.

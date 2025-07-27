@@ -9,7 +9,7 @@ public static class DepartmentValidator
     {
         if (!companyExists) throw new CompanyNotFoundException(department.CompanyId);
         ValidatorUtils.WhiteSpaceCheck(department.Name, "Department Name");
-        ValidatorUtils.WhiteSpaceCheck(department.Phone, "Department Phone");
+        ValidatorUtils.DigitsSpacesPlusCheck(department.Phone, "Department Phone");
 
         return department;
     }
@@ -27,8 +27,7 @@ public static class DepartmentValidator
     {
         if (!companyExists) throw new CompanyNotFoundException(department.CompanyId!.Value);
         if (department.Name is not null) ValidatorUtils.WhiteSpaceCheck(department.Name, "Department Name");
-
-        if (department.Phone is not null) ValidatorUtils.WhiteSpaceCheck(department.Phone, "Department Phone");
+        if (department.Phone is not null) ValidatorUtils.DigitsSpacesPlusCheck(department.Phone, "Department Phone");
 
         return department;
     }
